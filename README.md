@@ -1,3 +1,3 @@
 # BookMarkServer
 
-Hosted on Heroku : https://bookmarkkh.herokuapp.com/
+Hosted on Heroku : https://bookmarkserverkh.herokuapp.com/
