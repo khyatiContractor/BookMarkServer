@@ -8,8 +8,7 @@ from urllib.parse import unquote, parse_qs
 import threading
 from socketserver import ThreadingMixIn
 import os
-import threading
-from socketserver import ThreadingMixIn
+
 
 memory = {}
 
@@ -49,7 +48,7 @@ def CheckURI(uri, timeout=5):
         return False
 
 
-class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
+class Shortener(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         # A GET request will either be for / (the root path) or for /some-name.
         # Strip off the / and we have either empty string or a name.
@@ -109,6 +108,9 @@ class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
             self.end_headers()
             self.wfile.write(
                 "Couldn't fetch URI '{}'. Sorry!".format(longuri).encode())
+
+class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
+    "This is an HTTPServer that supports thread-based concurrency."
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
